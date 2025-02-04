@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="css/report_style.css">
+    <link rel="icon" type="image/png" href="logo.png">
+    <title>Technical Report: TraS Application Architecture and Implementation</title>
+</head>
+<body vocab="https://schema.org/" typeof="ScholarlyArticle">
+
+<header>
+    <h1 property="name">Technical Report: TraS Application Architecture and Implementation</h1>
+    <div>
+        <p><strong>Authors:</strong> <span property="author" typeof="Person"><span property="familyName">Popescu</span> <span property="givenName">Andrei-George</span></span> & <span property="author" typeof="Person"><span property="familyName">Rumeghea</span> <span property="givenName">Leonard</span></span></p>
+        <p><strong>Coordonator:</strong> <a href="https://profs.info.uaic.ro/sabin.buraga/"> Prof. Dr. habil. Sabin-Corneliu Buraga </a> </p>
+        <p><strong>Affiliation:</strong> <a href="https://edu.info.uaic.ro/"> Faculty of Computer Science, "Alexandru Ioan Cuza" University of Iasi </a></p>
+        <meta property="wordCount" content="3842">
+    </div>
+    <p><strong>Date:</strong> February, 2025</p>
+</header>
+
+<nav>
+    <ul>
+        <li><a href="#abstract">Abstract</a></li>
+        <li><a href="#introduction">Introduction</a></li>
+        <li><a href="#architecture">Architecture of the Web Application</a></li>
+        <li><a href="#internal-data-structures">Internal Data Structures</a></li>
+        <li><a href="#api-technical-aspects">API Technical Aspects</a></li>
+        <li><a href="#technologies">Technologies Used</a></li>
+        <li><a href="#rdf-based-knowledge-models">RDF-Based Knowledge Models</a></li>
+        <li><a href="#external-data-sources">External Data Sources</a></li>
+        <li><a href="#user-guide">User Guide</a></li>
+        <li><a href="#references">References</a></li>
+    </ul>
+</nav>
+
+<section id="abstract">
+    <h2>Abstract</h2>
+    <p>The Traffic Sign Smart Detector project aims to develop a web application capable of detecting and recognizing traffic signs in real-time. Leveraging machine learning, REST APIs, and RDF-based knowledge models, this project seeks to improve road safety by providing accurate traffic sign recognition. This technical report delves into the application's internal data structures, API implementation, and integration of external data sources. Additionally, it offers a user guide to facilitate effective use of the application. The report outlines the project's objectives, methods, and key results, demonstrating its potential impact on road safety and traffic management. With the integration of external knowledge bases and advanced machine learning models, the Traffic Sign Smart Detector represents a significant advancement in the field of intelligent transportation systems.</p>
+</section>
+
+<section id="introduction">
+    <h2>Introduction</h2>
+    <p>The Traffic Sign Smart Detector is a web application designed to enhance road safety by providing real-time detection and recognition of traffic signs. Accurate traffic sign recognition is crucial for developing intelligent transportation systems, improving driver assistance technologies, and ensuring road safety. This report offers a detailed analysis of the technical aspects of the application, covering internal data structures, API implementation, RDF-based knowledge models, and the integration of external data sources. The project employs cutting-edge machine learning techniques to accurately identify traffic signs from images captured via a camera or uploaded by the user. By leveraging established vocabularies, taxonomies, and ontologies, the application ensures consistent and accurate representation of traffic sign information. Moreover, the integration of external data sources, such as Wikidata and DBpedia, enriches the application's knowledge base, providing additional context and detailed information about each traffic sign. This report serves as a comprehensive guide to understanding the architecture, implementation, and usage of the Traffic Sign Smart Detector, highlighting its potential to significantly contribute to road safety and intelligent transportation systems.</p>
+</section>
+
+<section id="architecture">
+    <h2>Architecture of the Web Application</h2>
+    <p>The Traffic Sign Smart Detector web application is built on a robust architecture that combines machine learning models, REST APIs, and RDF-based knowledge models. This section provides an overview of the application's architecture, highlighting the key components and their interactions.</p>
+
+    <h3>Components of the Architecture</h3>
+    <p>The Traffic Sign Smart Detector architecture comprises the following key components:</p>
+
+    <ol>
+        <li><strong>Client Interface</strong>: The client interface allows users to interact with the application, upload images, and access traffic sign information. The interface is designed to be user-friendly and intuitive, providing a seamless experience for users.</li>
+
+        <li><strong>Server</strong>: The server component processes user requests, performs traffic sign recognition using machine learning models, and retrieves traffic sign information from the RDF-based knowledge model. The server communicates with the client interface via REST APIs, ensuring efficient data exchange.</li>
+
+        <li><strong>Machine Learning Model</strong>: The machine learning model is responsible for traffic sign recognition, analyzing images to identify and classify traffic signs accurately. The model is trained on a diverse dataset of traffic sign images, enabling it to recognize a wide range of sign types and variations.</li>
+
+        <li><strong>RDF-Based Knowledge Model</strong>: The RDF-based knowledge model stores structured traffic sign information, including sign categories, meanings, legal regulations, and relationships with other signs. The knowledge model ensures consistent representation of traffic sign data and facilitates efficient retrieval of sign information.</li>
+
+        <li><strong>External Data Sources</strong>: The application integrates external data sources, such as Wikidata and DBpedia, to enrich the knowledge base with additional information about traffic signs. By querying these sources using SPARQL, the application can access a wealth of contextual data to enhance the user experience.</li>
+    </ol>
+
+    <h3>Interaction Between Components</h3>
+    <div class="image-container">
+        <figure>
+            <img src="diagrams/svg/SystemContext.svg" alt="System Context Diagram" style="width: 100%;">
+            <figcaption>Diagram 1: System Context Diagram</figcaption>
+        </figure>
+
+        <figure>
+            <img src="diagrams/svg/Container.svg" alt="Container Diagram" style="width: 100%;">
+            <figcaption>Diagram 2: Container Diagram</figcaption>
+        </figure>
+    </div>
+
+    <figure>
+        <img src="diagrams/svg/Components.svg" alt="Components Diagram" style="width: 100%;">
+        <figcaption>Diagram 3: Components Diagram</figcaption>
+    </figure>
+
+    <h3>Flow of Data and Control</h3>
+    <p>The flow of data and control in the Traffic Sign Smart Detector application is as follows:</p>
+
+    <ol>
+        <li>The user interacts with the client interface to upload an image or enable real-time traffic sign recognition.</li>
+        <li>The client interface sends a request to the server via REST APIs, providing the image data or camera feed.</li>
+        <li>The server processes the image data using the machine learning model to recognize the traffic sign.</li>
+        <li>The server queries the RDF-based knowledge model to retrieve detailed information about the recognized traffic sign.</li>
+        <li>The server sends the recognized sign information back to the client interface for display to the user.</li>
+    </ol> 
+
+    <figure>
+        <img src="diagrams/svg/DataFlow.svg" alt="Data Flow Diagram" style="width: 100%;">
+        <figcaption>Diagram 4: Data Flow Diagram</figcaption>
+    </figure>
+</section>
+
+<section id="internal-data-structures">
+    <h2>Internal Data Structures</h2>
+    <p>Internal data structures are the backbone of any application, determining how data is stored, accessed, and managed. In the Traffic Sign Smart Detector, several key data structures play a crucial role in ensuring efficient data handling and retrieval. The primary data structures include image data, sign metadata, and user data.</p>
+
+    <h3>Image Data</h3>
+    <p>The application stores raw images captured by the camera or uploaded by the user. Each image is processed and resized to a standard dimension to facilitate efficient analysis. The image data structure includes attributes such as the image file path, timestamp, and associated metadata.</p>
+
+    <h3>Sign Metadata</h3>
+    <p>This data structure contains detailed information about each recognized traffic sign. The metadata includes attributes such as the sign category (e.g., regulatory, warning, informational), meaning, legal regulations, and relationships with other signs. The sign metadata is linked to the RDF-based knowledge model, ensuring consistent and accurate representation of traffic sign information.</p>
+
+    <h3>User Data</h3>
+    <p>To enhance the user experience, the application maintains user-specific information, such as preferences and interaction history. This data structure includes attributes such as user ID, preferences (e.g., preferred language, notification settings), and interaction history (e.g., previously recognized signs, user feedback). The user data is stored securely, ensuring privacy and confidentiality.</p>
+
+    <p>The internal data structures are designed to support seamless data exchange between different components of the application. The image data structure facilitates efficient image processing and analysis, while the sign metadata structure ensures accurate retrieval of traffic sign information. The user data structure enhances the user experience by providing personalized recommendations and notifications. Together, these data structures form the foundation of the Traffic Sign Smart Detector, enabling it to deliver accurate and efficient traffic sign recognition.</p>
+</section>
+
+<section id="api-technical-aspects">
+    <h2>API Technical Aspects</h2>
+    <p>The web application employs both REST and GraphQL APIs to facilitate data exchange. This section delves into the technical aspects of these APIs, including endpoint design, request and response formats, authentication mechanisms, and error handling. The APIs are designed following the proposed web system architecture to ensure scalability and reliability.</p>
+
+    <h3>Endpoint Design</h3>
+    <p>The API endpoints are designed to support various functionalities, including image upload, traffic sign recognition, and retrieval of traffic sign information. The endpoints follow standard RESTful principles, ensuring intuitive and consistent API design. Key endpoints include:</p>
+
+    <ol>
+
+        <li><strong>POST /recognize</strong>: Allows users to upload images for traffic sign recognition. The endpoint <u>accepts multipart/form-data, with the image file included in the request body</u>. Upon successful upload, the server processes the image and returns the recognized traffic sign information.</li>
+
+        <li><strong>GET /live</strong>: Enables real-time traffic sign recognition using the device's camera. The endpoint streams video frames to the server, which processes each frame and returns the recognized traffic sign information.</li>
+
+        <li><strong>GET /about?sign={sign_name}</strong>: Retrieves detailed information about a specific traffic sign as an HTML page. The information includes:</li>
+            <ul>
+                <li><strong>Category</strong>: Priority, Warning, Prohibitory, Mandatory, Special regulations, Indication, De-restriction
+                <li><strong>Type</strong>: (e.g., speed limit, stop, pedestrian crossing)</li>
+                <li><strong>Meaning</strong>
+                <li><strong>Legal Regulation</strong> (e.g., traffic rules, penalties, speed limits)</li>
+                <li><strong>Color</strong> & <strong>Shape</strong></li>
+                <li><strong>Relationships with other signs</strong></li>
+                 <ul>
+                    <li><strong>Precede Signs</strong>: The signs that should be placed after the current sign.</li>
+                    <li><strong>Precede By</strong>: The signs that should be placed before the current sign.</li>
+                    <li><strong>Remove restriction</strong>: The signs of which restrictions are removed by the current sign.</li>
+                 </ul>
+            </ul>
+        </li>
+        
+        <li><strong>GET /info?sign={sign_name}</strong>: Similar to '/about' endpoint, but without the visual representation. It will return the following information as a json object, so it can be used by other applications.</li>
+            <ul>
+                <li><strong>Category</strong>: Priority, Warning, Prohibitory, Mandatory, Special regulations, Indication, De-restriction
+                <li><strong>Type</strong>: (e.g., speed limit, stop, pedestrian crossing)</li>
+                <li><strong>Meaning</strong>
+                <li><strong>Legal Regulation</strong> (e.g., traffic rules, penalties, speed limits)</li>
+                <li><strong>Color</strong> & <strong>Shape</strong></li>
+                <li><strong>Relationships with other signs</strong></li>
+                <ul>
+                    <li><strong>Precede Signs</strong>: The signs that should be placed after the current sign.</li>
+                    <li><strong>Precede By</strong>: The signs that should be placed before the current sign.</li>
+                    <li><strong>Remove restriction</strong>: The signs of which restrictions are removed by the current sign.</li>
+                </ul>
+            </ul>
+        </li>
+
+        <li><strong>GET /technical_guide</strong>: Returns the technical guide page.</li>
+
+        <li><strong>GET /user_guide</strong>: Returns the user guide page.</li>
+    </ol>
+
+    <h3>Request and Response Formats</h3>
+    <p>The APIs support JSON data format for both requests and responses, ensuring consistency and interoperability. The request payloads include attributes such as image file, user ID, and query parameters. The response payloads include detailed traffic sign information, user preferences, and interaction history. The JSON format ensures compatibility with various client applications and facilitates easy parsing and manipulation of data.</p>
+
+    <h3>Error Handling</h3>
+    <p>The APIs implement robust error handling mechanisms to provide informative and user-friendly error messages. Error responses include standard HTTP status codes (e.g., 400 Bad Request, 404 Not Found) along with detailed error descriptions. By following RESTful error handling best practices, the APIs ensure clear communication of errors to the client application, enabling effective troubleshooting and issue resolution.</p>
+    <p>Custom error pages are also implemented for the following cases:</p>
+    <ol>
+        <li><strong>Unknown Page</strong>: When the user tries to access a page that does not exist, he will be redirected to a custom 404 page.</li>
+        <li><strong>Unknown Sign</strong>: When the user tries to access information about a sign that does not exist, he will be redirected to a custom 404 page.</li>
+    </ol>
+
+</section>
+
+<section id="technologies">
+
+    <h2>Technologies Used</h2>
+
+    <p>In this section, we will explore the advantages and strategic implementation of Flask, Apache Jena Fuseki, and the traffic sign prediction model, each playing a pivotal role in the application's architecture. Additionally, we discuss the deployment on Google Cloud VM instances, highlighting the benefits of utilizing Google's robust cloud infrastructure and the rationale behind using two VM instances to host the Fuseki endpoint and the main server. This comprehensive analysis provides insight into the design choices and technological underpinnings that contribute to the effectiveness and reliability of the Traffic Sign Smart Detector, underscoring its potential impact on intelligent transportation systems and road safety.</p>
+
+    <h2>Flask</h2>
+
+    <p>Flask is a lightweight web framework that stands out for its flexibility and ease of use, making it an excellent choice for developing the Traffic Sign Smart Detector application. As a micro framework, Flask provides the essential tools and components needed to build web applications without the extensive overhead of larger frameworks, which is crucial for maintaining a lean and efficient application.</p>
+
+    <h3>Advantages of Flask</h3>
+
+    <ol>
+        <li><strong>Lightweight and Flexible</strong>: Flask's minimalistic design allows for easy integration with various components, ensuring that the application remains agile and efficient. </li>
+        <li><strong>Micro Framework</strong>: By providing only the essential components, Flask ensures that the application remains free of unnecessary bloat, enhancing performance and scalability. </li>
+        <li><strong>Easy to Use</strong>: Flask's straightforward syntax and clear documentation make it accessible to developers, facilitating rapid development and deployment.</li>
+        <li><strong>Modular and Extensible</strong>: Flask's modular architecture allows developers to add or remove features as needed, ensuring that the application can easily adapt to new requirements and technologies. </li>
+    </ol>
+    
+    <p>Flask's robust support for building RESTful APIs is particularly beneficial for the Traffic Sign Smart Detector, as it allows for efficient handling of image uploads, traffic sign recognition, and data retrieval. The framework's scalability and performance capabilities ensure that the application can handle multiple requests simultaneously, which is essential for real-time traffic sign recognition. Furthermore, Flask's active community and extensive support resources accelerate development and troubleshooting, keeping the application up-to-date and secure.</p>
+    
+    <h2>Fuseki</h2>
+
+    <p>Apache Jena Fuseki is a powerful server that provides support for RDF (Resource Description Framework) data and SPARQL (SPARQL Protocol and RDF Query Language) queries, making it an ideal choice for managing the structured data associated with traffic signs. Fuseki's ability to handle large datasets efficiently and its support for standard RDF and SPARQL ensure interoperability with other semantic web technologies and external data sources.</p>
+    
+    <h3>Advantages of Fuseki</h3>
+
+    <ol>
+        <li><strong>RDF and SPARQL Support</strong>: Fuseki's ability to store and query RDF data using SPARQL is essential for managing the complex relationships and metadata associated with traffic signs. </li>
+        <li><strong>Scalability</strong>: Fuseki is designed to handle large datasets efficiently, ensuring that the application can manage and query vast amounts of traffic sign data without performance bottlenecks. </li>
+        <li><strong>Interoperability</strong>: Fuseki's support for standard RDF and SPARQL ensures compatibility with other semantic web technologies and external data sources, enriching the application's knowledge base. </li>
+        <li><strong>Security</strong>: Fuseki offers robust security features, including access control and authentication mechanisms, ensuring that only authorized users can access or modify the traffic sign data. </li>
+    </ol>
+
+    <p>Using Fuseki allows the Traffic Sign Smart Detector to represent traffic sign information in a structured, machine-readable format, ensuring consistency and accuracy. This structured representation is crucial for providing detailed and reliable traffic sign information to users. Fuseki's extensibility also allows for easy integration with other semantic web technologies and external data sources, ensuring that the application remains up-to-date and relevant.</p>
+    
+    <h2>Google Cloud VM</h2>
+
+    <h3>Google Cloud Overview</h3>
+    
+    <p>Google Cloud offers a suite of robust, scalable, and secure cloud computing services that can support various use cases, including web applications, data analytics, and machine learning. Its infrastructure is designed to scale effortlessly, ensuring that applications can handle varying levels of demand without performance degradation.</p>
+
+    <h4>Advantages of Google Cloud</h4>
+
+    <ol>
+        <li><strong>Scalability</strong>: Google Cloud's infrastructure scales effortlessly, allowing applications to handle varying levels of demand without performance degradation. </li>
+        <li><strong>Reliability</strong>: igh availability and reliability are ensured by Google Cloud's global network of data centers, minimizing downtime and ensuring a seamless user experience. </li>
+        <li><strong>Security</strong>: Stringent security measures, including encryption, access control, and threat detection, protect data and applications from threats. </li>
+        <li><strong>Integration with Other Services</strong>: Google Cloud provides a wide range of services that can be easily integrated with the Traffic Sign Smart Detector, enhancing its capabilities and providing additional features. </li>
+    </ol>
+
+    <p>Google Cloud's scalable infrastructure is crucial for supporting real-time traffic sign recognition and data processing, while its high availability ensures that the application remains accessible and performant. The robust security measures protect the application's data and infrastructure, maintaining user trust and compliance with data protection regulations. Additionally, the seamless integration with other Google Cloud services enhances the application's capabilities, ensuring flexibility and adaptability.</p>
+    
+    <h3>Advantages of Using Two VM Instances:</h3>
+
+    <ol>
+        <li><strong>Separation of Concerns</strong>: Isolating different components of the application on separate VM instances ensures that they do not interfere with each other, improving performance and manageability. </li>
+        <li><strong>Enhanced Performance</strong>: Dedicated resources for each VM instance reduce the risk of resource contention and performance bottlenecks. </li>
+        <li><strong>Redundancy and Reliability</strong>: Implementing redundancy and failover mechanisms ensures that the application remains available even if one instance experiences issues. </li>
+        <li><strong>Scalability</strong>: Independent scaling of each component based on specific needs ensures optimal performance and resource utilization. </li>
+    </ol>
+
+    <p>Using separate VM instances for the Fuseki endpoint and the main server allows for dedicated optimization and resource allocation, ensuring efficient data storage and querying. This setup enhances the real-time responsiveness of the application and provides redundancy, ensuring high availability and reliability. The ability to scale each component independently based on its specific needs ensures optimal performance and resource utilization, making the Traffic Sign Smart Detector a robust and efficient solution for traffic sign recognition and information.</p>
+
+</section>
+
+<section id="rdf-based-knowledge-models">
+    <h2>RDF-Based Knowledge Models</h2>
+
+    <p>This section focuses on the knowledge model built specifically to meet the information needs of the proposed system. Since our goal was to provide relevant information related to traffic signs, previously identified using a neural network, we used information from the legislation in force to present only valid legal regulations for each entity. Also, data in other existing knowledge models were used to facilitate the reduction of redundancy and the reuse of well-known and detailed concepts.</p>
+
+    <h3>The structure of the knowledge model</h3>
+
+    <p>Within the created ontology, a hierarchy of classes was used to define a general category into which different traffic signs fall. For this purpose, seven classes were created as follows:</p>
+
+    <ol>
+        <li><strong>De-restriction</strong>: This class represents all entities that cancel a restriction imposed by a previous traffic sign. </li>
+        <li><strong>Indication</strong>: This class represents all entities that provide an indication related to the facilities of the area or road on which they are located. </li>
+        <li><strong>Mandatory</strong>: This class represents all entities that oblige traffic participants to follow a series of rules imposed by each individual traffic sign. </li>
+        <li><strong>Priority</strong>: This class represents all entities that notify traffic participants of the presence or absence of priority they have and the rules that must be followed in situations where priority is lacking. </li>
+        <li><strong>Special Regulation</strong>: This class represents all entities that notify traffic participants of the presence of areas or situations where additional rules are imposed for the safety of people. These are usually pre-signaled a few dozen meters in advance by a different sign. </li>
+        <li><strong>Warning</strong>: This class represents all entities that warn drivers that they are approaching an area or situation where they must be extra careful and follow the rules imposed on the respective road sections. In most cases, additional signs that impose a traffic rule are to be seen a few meters ahead. </li>
+    </ol>
+
+    <h3>Properties used in the model</h3>
+
+    <p>The representation of various data of interest related to traffic signs consisted both in dividing them into disjoint classes, but also in creating/reusing properties that link the signs to each other or to other existing concepts.</p>
+    <p>The used object properties are the following:</p>
+
+    <ol>
+        <!-- <li><strong>P1419</strong>: A property from wikidata that represents the shape. </li> -->
+        <!-- <li><strong>P462</strong>: A property from wikidata that represents the color. </li> -->
+        <li><strong>isPrecededBy</strong>: A property created for the purpose of linking a traffic sign to another sign that may appear before it. The inverse of the "precedes" property.</li>
+        <li><strong>precedes</strong>: A property created for the purpose of linking a traffic sign to another sign whose appearance is possible in the near future. The inverse of the "isPrecededBy" property. </li>
+        <li><strong>removesRestriction Regulation</strong>: A property whose purpose is to create a link between the traffic signs that cancel a restriction and the sign that imposes this restriction. </li>
+    </ol>
+
+    <p>The data properties were created both for use with each entity, regardless of type, to present values that any traffic sign has, but also to present characteristics exclusive to a single type of sign.</p>
+
+    <ol>
+        <!-- <li><strong>abstract</strong>: A property from dbpedia that we can use to write some data and meanings about the traffic sign. </li> -->
+        <!-- <li><strong>label</strong>: A property from dbpedia that we can use to name a sign type. </li> -->
+        <li><strong>hasHeightLimit</strong>: A property, that takes values of type xsd:float, used to mark the maximum height of a vehicle inscribed on the sign.</li>
+        <li><strong>hasLengthLimit</strong>: A property, that takes values of type xsd:float, used to mark the maximum length of a vehicle inscribed on the sign. </li>
+        <li><strong>hasSpeedLimit</strong>: A property, that takes values of type xsd:unsignedInt, used to mark the maximum speed of a vehicle inscribed on the sign. </li>
+        <li><strong>hasWeightLimit</strong>: A property, that takes values of type xsd:float, used to mark the maximum weight of a vehicle inscribed on the sign. </li>
+        <li><strong>hasWidthLimit</strong>: A property, that takes values of type xsd:float, used to mark the maximum width of a vehicle inscribed on the sign. </li>
+        <li><strong>legalRegulation</strong>: A property, that takes values of type xsd:string, used to express a legal obligation that is conveyed by that traffic sign. </li>
+        <li><strong>removesSpeedLimit</strong>: A property, that takes values of type xsd:unsignedInt, used to express the speed limit that this sign overrides. </li>
+    </ol>
+
+    <p>This structuring of data into classes and the use of the properties mentioned above (as well as others taken from other knowledge models) offers expressiveness through the possibility of combining properties with clearly defined data types to fragment the legislative information about a traffic sign and provide a wide range of characterizations based on which connections and distinctions can be made between signs.</p>
+</section>
+
+<section id="external-data-sources">
+    <h2>External Data Sources</h2>
+
+    <p>In order to leverage the created knowledge model, different knowledge sources were used to provide already structured information that could be reused in the model used in our system. Properties and classes from Wikidata and DBpedia were used to build links between the knowledge provided in the ontology we created and concepts that were defined in other models, thus aiming to eliminate redundancy in data and facilitate their reuse.</p>
+
+    <p>Starting from the class level, to define the traffic sign categories we considered it appropriate to model them as subclasses of the "traffic sign" class (<strong>Q170285</strong>) from Wikidata. This approach was chosen in order to reuse some properties that have this class as their domain, such as:</p>
+    <ol>
+         <li><strong>P1419</strong>: A property that we can assign to a traffic sign to specify that it has a shape. </li>
+         <li><strong>P462</strong>: A property that we can assign to a traffic sign to specify that it has a color. </li>
+    </ol>
+
+    <p>To complete the RDF triple, entities were used that denote different colors and shapes needed for our dataset:</p>
+    <ol>
+        <li><strong>Q19821</strong>: An entity that defines a triangle. </li>
+        <li><strong>Q17278</strong>: An entity that defines a circle. </li>
+        <li><strong>Q164</strong>: An entity that defines a square. </li>
+        <li><strong>Q3142</strong>: An entity that defines the color red. </li>
+        <li><strong>Q943</strong>: An entity that defines the color yellow. </li>
+        <li><strong>Q1088</strong>: An entity that defines the color blue. </li>
+        <li><strong>Q23445</strong>: An entity that defines the color black. </li>
+    </ol>
+
+    <h3>Examples of SPARQL queries</h3>
+
+    <p>This query is used to obtain all information about a specific type of traffic sign, from which it filters those whose property takes a value of type NamedIndividual or Class.</p>
+
+    <pre><code>
+    SELECT ?property ?object
+    WHERE{
+    myowl:SpeedLimit100Sign ?property ?object .
+    FILTER (?object != owl:NamedIndividual).
+    FILTER (?object != owl:Class)
+    }
+    </code></pre>
+
+    <p>This query is used to obtain all traffic signs in the De-restriction category that form (P1419) a circle (Q17278) and have the property of removing a speed limit.</p>
+
+    <pre><code>
+    SELECT ?subject ?object
+    WHERE{
+    ?type rdfs:subClassOf myowl:De-restrictionSign .
+    ?subject rdf:type ?type.
+    ?subject wdt:P1419 wd:Q17278.
+    ?subject ?property ?object.
+    FILTER (?property = myowl:removesSpeedLimit)
+    }
+    </code></pre>
+
+    <p>This query is used to obtain all properties and objects that belong to a traffic sign of the prohibitory category and that have the color red or blue, ignoring objects of type NamedIndividual or Class.</p>
+
+    <pre><code>
+    SELECT ?property ?object2
+    WHERE{
+    ?subject rdfs:subClassOf myowl:ProhibitorySign .
+    ?subject wdt:P462 ?object .
+    FILTER (?object = wd:Q3142 || ?object = wd:Q1088).
+    ?subject ?property ?object2.
+    FILTER (?object2 != owl:NamedIndividual).
+    FILTER (?object2 != owl:Class)
+    }
+    </code></pre>
+
+    <p>Looking at the knowledge model from the perspective of compliance with linked data principles, we aimed to avoid redundancy in the created ontology by clearly specifying properties that do not overlap and entities that are disjoint from each other. Certain classes in our model are built as subclasses of existing classes in other knowledge models in order to strengthen the connection between the created objects and the existing ones whose information we wanted to enrich.</p>
+    <p>All elements used in our knowledge model that are taken from other ontologies are exposed together with the access link to the model from where they are taken, these links are present both in the ontology and directly in the html pages where we display information related to traffic signs.</p>
+</section>
+
+<section id="user-guide">
+    <h2>User Guide</h2>
+    <p>The user guide provides detailed instructions on how to use the Traffic Sign Smart Detector web application effectively. It covers the following key aspects:</p>
+    <ol>
+        <li><strong>Image Upload</strong>: Users can upload images containing traffic signs for recognition. The application processes the uploaded images and returns detailed information about the recognized traffic signs.</li>
+
+        <li><strong>Live Camera Recognition</strong>: Users can enable real-time traffic sign recognition using their device's camera. The application streams video frames to the server, which processes each frame and returns the recognized traffic sign information.</li>
+
+        <li><strong>Traffic Sign Information</strong>: Users can access detailed information about specific traffic signs, including category, type, meaning, legal regulations, color, shape, and relationships with other signs. The application provides visual representations and textual descriptions of each traffic sign.</li>
+    </ol>
+
+    <p>Detailed instructions on how to use each feature are provided in the user guide, ensuring that users can easily navigate the application and access the information they need. The user guide aims to enhance the user experience and facilitate effective interaction with the Traffic Sign Smart Detector, enabling users to leverage its capabilities for improved road safety and traffic sign recognition. The user guide is accessible directly from the '<a href="/user_guide">/user_guide</a>' endpoint of the application.
+
+</section>
+
+<section id="references">
+    <h2>References</h2>
+    <ul>
+        <li><a href="https://profs.info.uaic.ro/sabin.buraga/teach/courses/wade/web-film.html">Web Application Development Courses</a></li>
+        <li><a href="https://en.wikipedia.org/wiki/Comparison_of_European_road_signs">Comparison of European road signs</a></li>
+        <li><a href="https://www.wikidata.org/wiki/Wikidata:Main_Page">Wikidata</a></li>
+        <li><a href="https://www.dbpedia.org/about/">DBpedia</a></li>
+        <li><a href="https://github.com/OAI/OpenAPI-Specification#readme">OpenAPI</a></li>
+        <li><a href="https://w3c.github.io/scholarly-html/">Scholarly HTML</a></li>
+    </ul>
+</section>
+
+</body>
+</html>
